@@ -10,7 +10,7 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/',function(req,res){
-  'Hello World!'
+  res.send('Hello World!');
 });
 
 app.get('/users/:user', function(request,response) {
