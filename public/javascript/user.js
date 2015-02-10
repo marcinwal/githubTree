@@ -3,3 +3,4 @@ function User(login){
   this.followers = undefined;
   this.following = undefined;
 }
+
