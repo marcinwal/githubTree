@@ -1,17 +1,29 @@
+// var u = new User();
 var centerUser;
 var centerUserFollowers;
-var user = new User();
+var user;
 
 function loadFollowers(username){
+
+  var followers_list=[]
+
+
   $.get('https://api.github.com/users/'+ username,function(user){
     centerUser = user;    
   });
   $.get('https://api.github.com/users/'+username+'/followers',function(followers){
     centerUserFollowers = followers;
+
+    for(var i = 0;i < centerUserFollowers.length; i++){ 
+      console.log(centerUserFollowers[i].login);
+      followers_list.push(centerUserFollowers[i].login);
+    }
   });
 
-  // user.login = centerUser.login;
-  // user.followers = centerUserFollowers;
+
+  user = new User();
+  user.login = username;
+  user.followers = followers_list;
 }
 
 $(document).ready(function(){
