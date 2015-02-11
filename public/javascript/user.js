@@ -1,6 +1,6 @@
-function User(login){
-  this.login = login;
+var User = function(){
+  this.login = '';
   this.followers = undefined;
   this.following = undefined;
-}
+};
 
