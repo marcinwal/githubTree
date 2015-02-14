@@ -23,7 +23,6 @@ function loadUser(username){
 
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
-  console.log(user);
   loadFollowers(user);
 });
 
