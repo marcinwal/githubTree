@@ -1,12 +1,11 @@
-// var u = new User();
 var centerUser;
 var centerUserFollowers;
 var user;
 
 
-function loadFollowers(user){
+function loadFollowers(user,field){
   var followers_list=[]
-  $.get('https://api.github.com/users/'+user.info.login+'/followers',function(followers){
+  $.get('https://api.github.com/users/'+user.info[field]+'/followers',function(followers){
     for(var i = 0;i < followers.length; i++){ 
       user.add_follower(followers[i]);
     };
@@ -23,7 +22,8 @@ function loadUser(username){
 
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
-  loadFollowers(user);
+  console.log(event)
+  loadFollowers(user,'login');
 });
 
 $(document).ready(function(){
