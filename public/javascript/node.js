@@ -1,7 +1,7 @@
 function Node(){
   this.info = undefined;
-  this.followers = undefined;
-  this.following = undefined;
+  this.followers = [];
+  this.following = [];
 };
 
 Node.prototype.add_follower = function(node) {
