@@ -1,1 +1,7 @@
-graphs.css
+.formhidden{
+  display: none;
+}
+
+.formshow{
+  display: block;
+}

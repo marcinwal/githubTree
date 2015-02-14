@@ -10,8 +10,8 @@ function loadFollowers(user){
   $.get('https://api.github.com/users/'+user.info.login+'/followers',function(followers){
     for(var i = 0;i < followers.length; i++){ 
       // followers_list.push(centerUserFollowers[i]);
-      user.add_follower(followers[i])
-    }
+      user.add_follower(followers[i]);
+    };
   });
 }
 
@@ -22,6 +22,7 @@ function loadUser(username){
       user.info = user_reply;
       console.log(user_reply);   
   });
+  $('#formdepth').attr('class','formshow');
 }
 
 $(document).ready(function(){

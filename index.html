@@ -3,6 +3,7 @@
 <html>
   <head>
     <title>Github API graph network</title>
+    <link href='public/css/reset.css' rel="stylesheet">
     <link href='public/css/graphs.css' rel="stylesheet">
   </head>
 
@@ -12,7 +13,7 @@
       <input id='username' placeholder='Enter a github username'>
       <button type='submit'> Load Profile </button>
     </form>
-    <form id='network'>
+    <form class='formhidden' id='formdepth'>
       <input id='depth' placeholder='How deep in the tree?'>
       <button type='submit'> Build network </button>
     </form>
@@ -23,7 +24,7 @@
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
     <script src='public/javascript/main.js'></script>
-    <script src='public/javascript/user.js'></script>
+    <script src='public/javascript/node.js'></script>
 
   </body>
 
