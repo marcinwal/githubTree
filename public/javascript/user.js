@@ -1,11 +1,11 @@
-function User(){
+function Node(){
   this.info = undefined;
   this.followers = undefined;
   this.following = undefined;
 };
 
-User.prototype.add_follower = function(user) {
-  var new_user = new User(); 
-  new_user.info = user;
-  this.followers.push(new_user);
+Node.prototype.add_follower = function(node) {
+  var new_node = new Node(); 
+  new_node.info = node;
+  this.followers.push(new_node);
 };

@@ -17,15 +17,11 @@ function loadFollowers(user){
 
 function loadUser(username){
 
-  user = new User();
-
+  user = new Node();
   $.get('https://api.github.com/users/'+ username,function(user_reply){
       user.info = user_reply;
       console.log(user_reply);   
   });
-
-
-
 }
 
 $(document).ready(function(){
