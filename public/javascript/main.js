@@ -7,7 +7,7 @@ function loadFollowers(user,field){
   var followers_list=[]
   $.get('https://api.github.com/users/'+user.info[field]+'/followers',function(followers){
     for(var i = 0;i < followers.length; i++){ 
-      user.add_follower(followers[i]);
+      user.addFollower(followers[i]);
     };
   });
 }
