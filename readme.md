@@ -1,0 +1,1 @@
+This is a simple Node project to track and present network of realtions (followers in this case) of initially github repos which could be easily translated to other networks.
