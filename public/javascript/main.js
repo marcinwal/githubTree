@@ -40,10 +40,10 @@ function loadNetwork(node,depth,field){
   for(var i=0; i < node.followers.length; i++){
     current = node.followers[i];
     id = current.info[field];
-    console.log(id);
     if (networkAllUsers.indexOf(id)===-1)
     { 
       networkAllUsers.push(id);
+      console.log(id);
       loadNetwork(current,depth-1,field);
     }  
   }});
@@ -63,7 +63,6 @@ function loadNetwork(node,depth,field){
 
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
-  console.log(event)
   depth = $('#depth').val();
   // loadFollowers(user,'login');
   loadNetwork(user,depth,'login')
