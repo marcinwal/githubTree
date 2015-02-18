@@ -1,27 +1,28 @@
-// var GitHubApi = require("github");
 var centerUser;
 var centerUserFollowers;
 var user;
-var networkAllUsers= [];
+var networkAllUsers;
 
-// github.authenticate({
-//     type: "oauth",
-//     key: "31b2fd9fbe37af7c3ae6",
-//     secret: "52b79f74b10c64a3476b6e4730e17d58e6c70110"
-// })
+pass = {
+    client_id: "31b2fd9fbe37af7c3ae6",
+    client_secret: "52b79f74b10c64a3476b6e4730e17d58e6c70110"
+}
 
 function loadUser(username){
   user = new Node();
-  $.get('https://api.github.com/users/'+ username,function(user_reply){
+  path = 'https://api.github.com/users/'+ username +'?client_id=' 
+  path += pass.client_id + '&client_secret='+pass.client_secret
+  $.get(path,function(user_reply){
       user.info = user_reply;
-      networkAllUsers.push(user.info.login); 
   });
   $('#formdepth').attr('class','formshow');
+  return user;
 }
 
 function loadFollowers(user,field){
   var followers_list=[]
   path = 'https://api.github.com/users/'+user.info[field]+'/followers';
+  path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret
   $.get(path,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       user.addFollower(followers[i]);
@@ -35,7 +36,7 @@ function loadNetwork(node,depth,field){
     return;
   }else
   {
-    loadFollowers(node,field);
+    loadFollowers(node,field)
     depth -=1;
     for(var i=0; i < node.followers.length; i++){
       current = node.followers[i];
@@ -62,5 +63,6 @@ $(document).ready(function(){
    $('#add_profile').on('submit', function(event) {
     event.preventDefault();
     loadUser($('#username').val());
+    networkAllUsers=[];
   });
 });
