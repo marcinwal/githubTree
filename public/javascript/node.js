@@ -5,10 +5,12 @@ function Node(){
 };
 
 Node.prototype.addFollower = function(node) {
-  var new_node = new Node(); 
-  new_node.info = node;
-  this.followers.push(new_node);
+  this.followers.push(node);
 };
+
+Node.prototype.addFollow = function(node){
+  this.followers.push(node);
+}
 
 // getting all followers from a given note
 Node.prototype.getFollowers=function(){

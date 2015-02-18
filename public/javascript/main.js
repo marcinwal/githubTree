@@ -1,5 +1,5 @@
-var centerUser;
-var centerUserFollowers;
+// var centerUser;
+// var centerUserFollowers;
 var user;
 var networkAllUsers;
 
@@ -20,34 +20,31 @@ function loadUser(username){
 }
 
 function loadFollowers(user,field){
-  var followers_list=[]
   path = 'https://api.github.com/users/'+user.info[field]+'/followers';
   path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret
   $.get(path,function(followers){
     for(var i = 0;i < followers.length; i++){ 
-      user.addFollower(followers[i]);
+      current = new Node();
+      current.info = followers[i];
+      user.addFollower(current);
     };
   });
 }
 
 function loadNetwork(node,depth,field){
-  if (depth == 0)
-  {
-    return;
-  }else
-  {
-    loadFollowers(node,field)
-    depth -=1;
-    for(var i=0; i < node.followers.length; i++){
-      current = node.followers[i];
-      if (networkAllUsers.indexOf(current.info.field)===-1)
-      { //searchin one more if not searched previously
-        networkAllUsers.push(current.info[field]);
-        loadNetwork(current,depth,field);
-      }  
-    };
-    return;
-  }
+  
+  loadFollowers(node,field)
+  if (depth == 0){return;}
+  for(var i=0; i < node.followers.length; i++){
+    current = node.followers[i];
+    id = current.info[field];
+    if (networkAllUsers.indexOf(id)===-1)
+    //follower has not been searched yet  
+    { 
+      networkAllUsers.push(id);
+      loadNetwork(current,depth-1,field);
+    }
+  };
 }
 
 
