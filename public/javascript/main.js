@@ -19,32 +19,44 @@ function loadUser(username){
   return user;
 }
 
-function loadFollowers(user,field){
+function loadFollowers(user,field,callback){
   path = 'https://api.github.com/users/'+user.info[field]+'/followers';
   path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret
+
   $.get(path,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];
       user.addFollower(current);
+      callback();
     };
   });
 }
 
 function loadNetwork(node,depth,field){
   
-  loadFollowers(node,field)
+  loadFollowers(node,field,function(){
   if (depth == 0){return;}
   for(var i=0; i < node.followers.length; i++){
     current = node.followers[i];
     id = current.info[field];
     if (networkAllUsers.indexOf(id)===-1)
-    //follower has not been searched yet  
     { 
       networkAllUsers.push(id);
       loadNetwork(current,depth-1,field);
-    }
-  };
+    }  
+  }});
+
+  // if (depth == 0){return;}
+  // for(var i=0; i < node.followers.length; i++){
+  //   current = node.followers[i];
+  //   id = current.info[field];
+  //   if (networkAllUsers.indexOf(id)===-1)
+  //   { 
+  //     networkAllUsers.push(id);
+  //     loadNetwork(current,depth-1,field);
+  //   }
+  // };
 }
 
 

@@ -1,5 +1,4 @@
 // this is a file to simulate if tree builder is working properly
-
 var master = new Node;
 master.info = 'master'
 
