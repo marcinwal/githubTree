@@ -40,6 +40,7 @@ function loadNetwork(node,depth,field){
   for(var i=0; i < node.followers.length; i++){
     current = node.followers[i];
     id = current.info[field];
+    console.log(id);
     if (networkAllUsers.indexOf(id)===-1)
     { 
       networkAllUsers.push(id);
@@ -71,7 +72,10 @@ $('#formdepth').on('submit',function(event){
 $(document).ready(function(){
    $('#add_profile').on('submit', function(event) {
     event.preventDefault();
-    loadUser($('#username').val());
-    networkAllUsers=[];
+    username = $('#username').val();
+    loadUser(username);
+    // networkAllUsers=[];
+    networkAllUsers = [];
+    networkAllUsers.push(username);
   });
 });
