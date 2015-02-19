@@ -47,17 +47,29 @@ function loadNetwork(node,depth,field){
       loadNetwork(current,depth-1,field);
     }  
   }});
+}
 
-  // if (depth == 0){return;}
-  // for(var i=0; i < node.followers.length; i++){
-  //   current = node.followers[i];
-  //   id = current.info[field];
-  //   if (networkAllUsers.indexOf(id)===-1)
-  //   { 
-  //     networkAllUsers.push(id);
-  //     loadNetwork(current,depth-1,field);
-  //   }
-  // };
+function loadNetworkNonR(node,depth,field){
+var level = depth;
+var toVisit = [];
+var network =[];
+
+  toVisit.push([node,level]);
+  network.push(node.info[field]);
+  while (toVisit.length > 0){
+    current = toVisit.pop();
+    loadFollowers(current[0],field,function(){
+      for(var i = 0; i < current[0].followers.length;i++){
+        user = current[0].followers[i].info[field];
+        if ((network.indexOf(user)===-1) && (current[1]>0))
+        {
+          toVisit.push([user,current[1]-1]);
+          network.push(user);
+        }
+      }
+    });
+  }
+  return network;  
 }
 
 
