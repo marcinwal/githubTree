@@ -50,16 +50,16 @@ function loadNetwork(node,depth,field){
 }
 
 function loadNetworkNonR(node,depth,field){
-var level = depth;
 var toVisit = [];
 var network =[];
 
-  toVisit.push([node,level]);
+  toVisit.push([node,depth]); // saves [node,level] to control how deep it is 
   network.push(node.info[field]);
+  
   while (toVisit.length > 0){
-    current = toVisit.pop();
-    loadFollowers(current[0],field,function(){
-      for(var i = 0; i < current[0].followers.length;i++){
+    loadFollowers(toVisit[0][0],field,function(){ //too fast again !!
+      for(var i = 0; i < toVisit[0][0].followers.length;i++){
+        current = toVisit.shift();
         user = current[0].followers[i].info[field];
         if ((network.indexOf(user)===-1) && (current[1]>0))
         {
