@@ -23,6 +23,8 @@ function loadFollowers(user,field,callback){
   path = 'https://api.github.com/users/'+user.info[field]+'/followers';
   path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret
 
+  console.log("path:"+path+' field: '+field+' node: '+user);
+
   $.get(path,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
@@ -49,7 +51,7 @@ function loadNetwork(node,depth,field){
   }});
 }
 
-function loadNetworkNonR(node,depth,field){
+function loadNetworkNonROld(node,depth,field){
 var toVisit = [];
 var network =[];
 
@@ -57,27 +59,73 @@ var network =[];
   network.push(node.info[field]);
   
   while (toVisit.length > 0){
-    loadFollowers(toVisit[0][0],field,function(){ //too fast again !!
-      for(var i = 0; i < toVisit[0][0].followers.length;i++){
-        current = toVisit.shift();
-        user = current[0].followers[i].info[field];
-        if ((network.indexOf(user)===-1) && (current[1]>0))
-        {
-          toVisit.push([user,current[1]-1]);
-          network.push(user);
-        }
+    curr = toVisit.shift();
+    deep = curr[1];
+    current = curr[0];
+    loadFollowers(current,field,function(){ //too fast again !!
+
+      console.log(current);
+
+      if ((network.indexOf(current.info[field])===-1) && (deep > 0))
+      {
+          toVisit.push([current,deep-1]);
+          network.push(current.info[field]);
       }
+
+      // for(var i = 0; i < current.followers.length;i++){
+      //   user = current.followers[i].info[field];
+      //   if ((network.indexOf(user.info[field])===-1) && (deep > 0))
+      //   {
+      //     toVisit.push([user,deep-1]);
+      //     network.push(user.info[field]);
+      //   }
+      // }
     });
   }
   return network;  
 }
 
 
+
+function loadNetworkNonR(node,depth,field){
+var toVisit = [];
+var network =[];
+
+  toVisit.push([node,depth]);
+  go = true;    
+  // loadFollowers(node,field,function(){
+    while(go){
+      if (toVisit.length > 0)
+      {
+        visit = toVisit.shift();
+        curr = visit[0];
+        deep = visit[1];
+        loadFollowers(curr,field,function()
+        {
+          for(i=0;i<curr.followers.length;i++)
+          {
+            if ((network.indexOf(curr.followers[i].info[field])===-1) && (deep >0))
+            {
+              toVisit.push([curr.followers[i],deep-1]);
+              network.push(curr.info[field]);
+            }
+          }
+          if (toVisit.length === 0){
+            go = false;
+          }  
+        });
+      }  
+    }
+  return network;
+}
+
+
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
-  // loadFollowers(user,'login');
-  loadNetwork(user,depth,'login')
+  // loadNetwork(user,depth,'login');
+  // networkAllUsers = loadNetworkNonR(user,depth,'login')
+  networkAllUsers = loadNetworkNonROld(user,depth,'login')
 });
 
 $(document).ready(function(){
