@@ -53,36 +53,33 @@ function loadNetwork(node,depth,field){
 
 function loadNetworkNonROld(node,depth,field){
 var toVisit = [];
-var network =[];
+var visited =[];
+var deep;
+var current;
+var curr;
 
   toVisit.push([node,depth]); // saves [node,level] to control how deep it is 
-  network.push(node.info[field]);
+  go = true;                  // starts at initial node
   
-  while (toVisit.length > 0){
+  // while (toVisit.length > 0){
+  while (go){
+    
     curr = toVisit.shift();
-    deep = curr[1];
-    current = curr[0];
-    loadFollowers(current,field,function(){ //too fast again !!
-
-      console.log(current);
-
-      if ((network.indexOf(current.info[field])===-1) && (deep > 0))
-      {
-          toVisit.push([current,deep-1]);
-          network.push(current.info[field]);
-      }
-
-      // for(var i = 0; i < current.followers.length;i++){
-      //   user = current.followers[i].info[field];
-      //   if ((network.indexOf(user.info[field])===-1) && (deep > 0))
-      //   {
-      //     toVisit.push([user,deep-1]);
-      //     network.push(user.info[field]);
-      //   }
-      // }
-    });
+    if (curr){
+      current = curr[0];
+      deep = curr[1];
+      if((visited.indexOf(current.info[field])===-1) && (deep > 0)){
+        visited.push(current.info[field]);
+        loadFollowers(current,field,function(){ 
+            for(var i=0;i < current.followers.length; i++){
+              toVisit.push([current.followers[i],deep-1]);
+            }
+        });
+      }  
+    }
+    if (toVisit.length===0) {go=false;}  
   }
-  return network;  
+  return visited;  
 }
 
 
@@ -123,9 +120,9 @@ var network =[];
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
-  // loadNetwork(user,depth,'login');
-  // networkAllUsers = loadNetworkNonR(user,depth,'login')
-  networkAllUsers = loadNetworkNonROld(user,depth,'login')
+  loadNetwork(user,depth,'login');
+  //networkAllUsers = loadNetworkNonR(user,depth,'login')
+  // networkAllUsers = loadNetworkNonROld(user,depth,'login')
 });
 
 $(document).ready(function(){
