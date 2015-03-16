@@ -7,3 +7,5 @@ The main purpose of the exarcice was to practice both js and node and to use asy
 Plan going forward is to add more functionality via D3 tools which should represent the tree in a nice way;
 
 I would like to solve same problem later in parallel way in C most likely(more reading needed).
+
+Main files are in public/javascript directory for the time being
