@@ -4,8 +4,8 @@ var user;
 var networkAllUsers;
 
 pass = {
-    client_id: "31b2fd9fbe37af7c3ae6",
-    client_secret: "52b79f74b10c64a3476b6e4730e17d58e6c70110"
+    client_id: "yourClientID",
+    client_secret: "yourClientSecret"
 }
 
 function loadUser(username){
@@ -59,13 +59,10 @@ var current;
 var curr;
 
   toVisit.push([node,depth]); // saves [node,level] to control how deep it is 
-  go = true;                  // starts at initial node
+                              // starts at initial node
   
-  // while (toVisit.length > 0){
-  while (go){
-    
-    curr = toVisit.shift();
-    if (curr){
+  while (toVisit.length > 0){   
+      curr = toVisit.shift();
       current = curr[0];
       deep = curr[1];
       if((visited.indexOf(current.info[field])===-1) && (deep > 0)){
@@ -76,8 +73,6 @@ var curr;
             }
         });
       }  
-    }
-    if (toVisit.length===0) {go=false;}  
   }
   return visited;  
 }
@@ -120,9 +115,9 @@ var network =[];
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
-  loadNetwork(user,depth,'login');
+  // loadNetwork(user,depth,'login');
   //networkAllUsers = loadNetworkNonR(user,depth,'login')
-  // networkAllUsers = loadNetworkNonROld(user,depth,'login')
+  networkAllUsers = loadNetworkNonROld(user,depth,'login')
 });
 
 $(document).ready(function(){
