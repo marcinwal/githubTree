@@ -4,8 +4,8 @@ var user;
 var networkAllUsers;
 
 pass = {
-    client_id: "yourClientID",
-    client_secret: "yourClientSecret"
+    client_id: '31b2fd9fbe37af7c3ae6', //process.env.GIHHUB_CLIENT_ID,
+    client_secret: '52b79f74b10c64a3476b6e4730e17d58e6c70110' //process.env.GIHHUB_CLIENT_SECRET_ID
 }
 
 function loadUser(username){
@@ -115,9 +115,9 @@ var network =[];
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
-  // loadNetwork(user,depth,'login');
+  loadNetwork(user,depth,'login');
   //networkAllUsers = loadNetworkNonR(user,depth,'login')
-  networkAllUsers = loadNetworkNonROld(user,depth,'login')
+  // networkAllUsers = loadNetworkNonROld(user,depth,'login')
 });
 
 $(document).ready(function(){
