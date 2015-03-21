@@ -116,6 +116,7 @@ $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
   loadNetwork(user,depth,'login');
+  console.log("total number of followers:"+networkAllUsers.length);
   //networkAllUsers = loadNetworkNonR(user,depth,'login')
   // networkAllUsers = loadNetworkNonROld(user,depth,'login')
 });
