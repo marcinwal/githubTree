@@ -9,25 +9,13 @@
 
   <body>
 
-    <form id='add_profile'>
-      <input id='username' placeholder='Enter a github username'>
-      <button type='submit'> Load Profile </button>
-    </form>
-    <form class='formhidden' id='formdepth'>
+    <form id='add_profile_full' method="post">
+      <input id='username' placeholder='Enter a github username' name='userName'></br>
       <input id='depth' placeholder='How deep in the tree?' name="howDeep">
       <button type='submit'> Build network </button>
     </form>
-    <results>
-      <input type='text' id='result' value='' disabled />
-    </results>
-    <template id='profile-template'>
-    </template>
-
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
-    <script src='javascript/main.js'></script>
-    <script src='javascript/node.js'></script>
-    <script src='javascript/simulation.js'></script>
   </body>
 
 </html>

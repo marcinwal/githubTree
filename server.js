@@ -6,9 +6,8 @@ var bodyParser = require('body-parser');
 
 var server = http.createServer(app);
 
-var portLocal = 3000;
+var portLocal = 9999;
 var pass;
-var path = "https://localhost:3000";
 
 
 pass = {
@@ -22,16 +21,30 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
-app.use(cookieParser);
+// app.use(cookieParser);
 
 
 
-app.get('/',function(req,res){
+app.get('/',function(request,response){
   // res.render('index');
-  res.render('index',{path:path});
+  // response.send('jello');
+  response.render('index');
 });
 
+
 app.post('/',function(req,res){
+  console.log(req.params);
+  console.log(req.body);
+  res.send('200');
+});
+
+app.get('/start',function(req,res){
+  res.render('start');
+});
+
+
+
+app.post('/start',function(req,res){
   console.log(req.params);
   console.log(req.body);
   res.send('200');
