@@ -9,13 +9,13 @@
 
   <body>
 
-    <form id='add_profile' action="/" method="POST">
+    <form id='add_profile'>
       <input id='username' placeholder='Enter a github username'>
       <input id='path' type='hidden' value='<%= path %>' />
       <button type='submit'> Load Profile </button>
     </form>
-    <form class='formhidden' id='formdepth'>
-      <input id='depth' placeholder='How deep in the tree?'>
+    <form class='formhidden' id='formdepth' method='post'>
+      <input id='depth' placeholder='How deep in the tree?' name="howDeep">
       <button type='submit'> Build network </button>
     </form>
     <results>

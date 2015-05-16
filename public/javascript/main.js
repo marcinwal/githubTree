@@ -54,12 +54,10 @@ function loadNetwork(node,depth,field){
 }
 
 $('#formdepth').on('submit',function(event){
-  event.preventDefault();
   depth = $('#depth').val();
   loadNetwork(user,depth,'login');
   console.log("total number of followers:"+networkAllUsers.length);
   path = $('#path').text();
-  $.post(path,{'text':'test'});
 });
 
 $(document).ready(function(){

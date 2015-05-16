@@ -1,6 +1,8 @@
 var express=require('express');
 var app = express();
 var http = require('http');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 var server = http.createServer(app);
 
@@ -16,7 +18,13 @@ pass = {
 
 app.set('port',process.env.PORT||portLocal);
 app.set('view engine','ejs');
+
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json());
+app.use(cookieParser);
+
+
 
 app.get('/',function(req,res){
   // res.render('index');
@@ -26,6 +34,7 @@ app.get('/',function(req,res){
 app.post('/',function(req,res){
   console.log(req.params);
   console.log(req.body);
+  res.send('200');
 });
 
 app.get('/users/:user', function(request,response) {
