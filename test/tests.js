@@ -1,9 +1,16 @@
-var chai = require('chai');               
-var expect = chai.expect;  
-var casper = require('casperjs');
+describe('homepage',function(){
 
-describe('basic test',function(){
-     it('should do simple',function(){
-          expect(1+1).to.equal(2);
-     });
+  var host = 'http://localhost:3000'
+
+  before(function(){
+    casper.start(host);
+  });
+
+  it('hello worlds',function() {
+    casper.then(function(){
+      expect('body').to.contain.text('Github');
+    });
+  });
+
+
 });
