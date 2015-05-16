@@ -3,6 +3,7 @@
 var user;
 var networkAllUsers;
 
+
 pass = {
     client_id: '31b2fd9fbe37af7c3ae6', //process.env.GIHHUB_CLIENT_ID,
     client_secret: '52b79f74b10c64a3476b6e4730e17d58e6c70110' //process.env.GIHHUB_CLIENT_SECRET_ID
@@ -46,79 +47,19 @@ function loadNetwork(node,depth,field){
     { 
       networkAllUsers.push(id);
       console.log(id);
+      $('#result').val(networkAllUsers.length);
       loadNetwork(current,depth-1,field);
     }  
   }});
 }
-
-function loadNetworkNonROld(node,depth,field){
-var toVisit = [];
-var visited =[];
-var deep;
-var current;
-var curr;
-
-  toVisit.push([node,depth]); // saves [node,level] to control how deep it is 
-                              // starts at initial node
-  
-  while (toVisit.length > 0){   
-      curr = toVisit.shift();
-      current = curr[0];
-      deep = curr[1];
-      if((visited.indexOf(current.info[field])===-1) && (deep > 0)){
-        visited.push(current.info[field]);
-        loadFollowers(current,field,function(){ 
-            for(var i=0;i < current.followers.length; i++){
-              toVisit.push([current.followers[i],deep-1]);
-            }
-        });
-      }  
-  }
-  return visited;  
-}
-
-
-
-function loadNetworkNonR(node,depth,field){
-var toVisit = [];
-var network =[];
-
-  toVisit.push([node,depth]);
-  go = true;    
-  // loadFollowers(node,field,function(){
-    while(go){
-      if (toVisit.length > 0)
-      {
-        visit = toVisit.shift();
-        curr = visit[0];
-        deep = visit[1];
-        loadFollowers(curr,field,function()
-        {
-          for(i=0;i<curr.followers.length;i++)
-          {
-            if ((network.indexOf(curr.followers[i].info[field])===-1) && (deep >0))
-            {
-              toVisit.push([curr.followers[i],deep-1]);
-              network.push(curr.info[field]);
-            }
-          }
-          if (toVisit.length === 0){
-            go = false;
-          }  
-        });
-      }  
-    }
-  return network;
-}
-
 
 $('#formdepth').on('submit',function(event){
   event.preventDefault();
   depth = $('#depth').val();
   loadNetwork(user,depth,'login');
   console.log("total number of followers:"+networkAllUsers.length);
-  //networkAllUsers = loadNetworkNonR(user,depth,'login')
-  // networkAllUsers = loadNetworkNonROld(user,depth,'login')
+  path = $('#path').text();
+  $.post(path,{'text':'test'});
 });
 
 $(document).ready(function(){
@@ -126,7 +67,6 @@ $(document).ready(function(){
     event.preventDefault();
     username = $('#username').val();
     loadUser(username);
-    // networkAllUsers=[];
     networkAllUsers = [];
     networkAllUsers.push(username);
   });
