@@ -6,67 +6,46 @@ var GitHubApi = require('github');
 var networkAllUsers;
 var user;
 
-var github = new GitHubApi({
-  version: "3.0.0",
-  debug: true,
-  protocol: "https",
-  host: "api.github.com",
-  timeout: 5000,
-  authenticate: {
-    type: "oauth",
-    key: process.env['GITHUB_CLIENT_ID'],
-    secret: process.env['GITHUB_CLIENT_SECRET']
-  }
-});
-
-// github.authenticate({
-//     type: "oauth",
-//     key: process.env['GITHUB_CLIENT_ID'],
-//     secret: process.env['GITHUB_CLIENT_SECRET']
-// });
 
 
 
 module.exports = {
 
+github : new GitHubApi({
+version: "3.0.0",
+debug: true,
+protocol: "https",
+host: "api.github.com",
+timeout: 5000,
+authenticate: {
+  type: "oauth",
+  key: process.env['GITHUB_CLIENT_ID'],
+  secret: process.env['GITHUB_CLIENT_SECRET']
+}
+}),
+
 networkAllUsers : networkAllUsers,
 userNew : user,
-loadUserFromServer2 : function (username,pass){
+loadUserFromServer : function (username,pass,callback){
   userNew = new Node();
-  github.user.get({
+  this.github.user.getFrom({
     user: username,
   },function(err,res){
-    if(err){
-      console.log(err);
-    }
-    console.log(JSON.stringify(res));
+    results = (JSON.parse(JSON.stringify(res)));
+    userNew.info = results;
+    callback(userNew);
   });
 },
 
 loadFollowersFromServer : function (username,pass){
   userNew = new Node();
-  github.user.getFollowers({
+  this.github.user.getFollowers({
     user: username,
   },function(err,res){
     if(err){
       console.log(err);
     }
     console.log(JSON.stringify(res));
-  });
-},
-
-loadUserFromServer : function(username,pass){
-path = 'https://api.github.com/followers/'+username;
-// path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret;  
-
-  http.get(path,function(error,result){
-  if(error){
-    console.log("error:");
-    console.log(error);
-  }else{  
-    console.log(error);
-    console.log(JSON.stringify(result));
-  }
   });
 },
 
