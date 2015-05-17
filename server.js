@@ -46,11 +46,12 @@ app.get('/start',function(req,res){
 app.post('/start',function(req,res){
   // console.log(req.params);
   // console.log(req.body); 
-  loadTree.loadUserFromServer('marcinwal',pass,function(user){
+  loadTree.loadUserFromServer('marcinwal',function(user){
     console.log('calling from a server:')
     console.log(user.info.login);
     node = user;
   });
+
   res.send('200');
 });
 

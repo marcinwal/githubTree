@@ -26,7 +26,7 @@ authenticate: {
 
 networkAllUsers : networkAllUsers,
 userNew : user,
-loadUserFromServer : function (username,pass,callback){
+loadUserFromServer : function (username,callback){
   userNew = new Node();
   this.github.user.getFrom({
     user: username,
@@ -37,7 +37,7 @@ loadUserFromServer : function (username,pass,callback){
   });
 },
 
-loadFollowersFromServer : function (username,pass){
+loadFollowersFromServer : function (username){
   userNew = new Node();
   this.github.user.getFollowers({
     user: username,
@@ -45,7 +45,7 @@ loadFollowersFromServer : function (username,pass){
     if(err){
       console.log(err);
     }
-    console.log(JSON.stringify(res));
+    console.log(JSON.parse(JSON.stringify(res)));
   });
 },
 
