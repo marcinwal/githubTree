@@ -53,6 +53,7 @@ app.post('/start',function(req,res){
     //testing to load marciwal followers
     loadTree.loadFollowers(node,function(){
       console.log('followers length outside:'+node.followers.length);
+      console.log('followers [0] outside:'+node.followers[0].info.login);
     });
     res.send('200');
   });
