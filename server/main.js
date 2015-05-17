@@ -64,7 +64,6 @@ loadNetwork : function (node,depth,field,callback){
     if (networkAllUsers.indexOf(id)===-1)
     { 
       networkAllUsers.push(id);
-      console.log(id);
       core.loadNetwork(current,depth-1,field,callback);
     }  
   }});

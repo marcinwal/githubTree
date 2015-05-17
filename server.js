@@ -46,8 +46,9 @@ app.get('/start',function(req,res){
 
 app.post('/start',function(req,res){
   console.log(req.params);
-  console.log(req.body); 
-  loadTree.loadUserFromServer('marcinwal',function(user){
+  var body = req.body; 
+  console.log(body.userName);
+  loadTree.loadUserFromServer(body.userName,function(user){
     node = user;
     console.log('1st node:'+node.info.login);
     //testing to load marciwal followers
@@ -55,7 +56,7 @@ app.post('/start',function(req,res){
     //   console.log('followers length outside:'+node.followers.length);
     //   console.log('followers [0] outside:'+node.followers[0].info.login);
     // });
-    loadTree.loadNetwork(node,1,'login',function(allNet){
+    loadTree.loadNetwork(node,body.howDeep,'login',function(allNet){
       console.log(allNet);
     });
     res.send('200');
