@@ -14,6 +14,7 @@ var server = http.createServer(app);
 var portLocal = 3000;
 
 var node;
+var networkAllUers=[];
 
 
 app.set('port',process.env.PORT||portLocal);
@@ -47,15 +48,14 @@ app.post('/start',function(req,res){
   // console.log(req.params);
   // console.log(req.body); 
   loadTree.loadUserFromServer('marcinwal',function(user){
-    console.log('calling from a server:')
-    console.log(user.info.login);
     node = user;
-    loadTree.loadFollowersFromServer('marcinwal',function(followers){
-      console.log('number of followers:'+followers.length);
+    console.log('1st node:'+node.info.login);
+    //testing to load marciwal followers
+    loadTree.loadFollowers(node,function(){
+      console.log('followers length outside:'+node.followers.length);
     });
+    res.send('200');
   });
-
-  res.send('200');
 });
 
 app.get('/users/:user', function(request,response) {

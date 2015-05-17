@@ -3,12 +3,6 @@ var http = require('https');
 var GitHubApi = require('github');
 
 
-var networkAllUsers;
-var user;
-
-
-
-
 module.exports = {
 
 github : new GitHubApi({
@@ -24,8 +18,6 @@ authenticate: {
 }
 }),
 
-networkAllUsers : networkAllUsers,
-userNew : user,
 loadUserFromServer : function (username,callback){
   userNew = new Node();
   this.github.user.getFrom({
@@ -52,22 +44,26 @@ loadFollowersFromServer : function (username,callback){
 
 //to dbl check 
 loadFollowers : function (user,callback){
-  this.loadFollowersFromServer(user,function(followers){
+  this.loadFollowersFromServer(user.info.login,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];
+      console.log('adding new:'+current.info.login);
+      console.log('user inside loop load:'+user.followers);
       user.addFollower(current);
-      callback();
     };
+    console.log('user inside load:'+user.followers.length);
+    callback();
   });
 },
 
-loadNetwork : function (node,depth,field){
+loadNetwork : function (node,depth,field,networkAllUsers,callback){
   
-  loadFollowers(node,field,function(){
-  if (depth == 0){return;}
+  this.loadFollowers(node,field,function(){ 
+  if (depth == 0){callback;}
   for(var i=0; i < node.followers.length; i++){
     current = node.followers[i];
+    cosole.log(current);
     id = current.info[field];
     if (networkAllUsers.indexOf(id)===-1)
     { 
@@ -77,11 +73,8 @@ loadNetwork : function (node,depth,field){
     }  
   }});
 
-
 }
 }
 
 
-// module.exports = loadTree;
-// module.exports = loadUserFromServer;
 
