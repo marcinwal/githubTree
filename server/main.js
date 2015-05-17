@@ -48,11 +48,8 @@ loadFollowers : function (user,callback){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];
-      console.log('adding new:'+current.info.login);
-      console.log('user inside loop load:'+user.followers);
       user.addFollower(current);
     };
-    console.log('user inside load:'+user.followers.length);
     callback();
   });
 },
