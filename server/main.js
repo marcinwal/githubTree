@@ -37,7 +37,7 @@ loadUserFromServer : function (username,callback){
   });
 },
 
-loadFollowersFromServer : function (username){
+loadFollowersFromServer : function (username,callback){
   userNew = new Node();
   this.github.user.getFollowers({
     user: username,
@@ -45,17 +45,14 @@ loadFollowersFromServer : function (username){
     if(err){
       console.log(err);
     }
-    console.log(JSON.parse(JSON.stringify(res)));
+    followers = (JSON.parse(JSON.stringify(res)));
+    callback(followers);
   });
 },
 
-loadFollowers : function (user,field,callback){
-  path = 'https://api.github.com/users/'+user.info[field]+'/followers';
-  path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret;
-
-  console.log("path:"+path+' field: '+field+' node: '+user);
-
-  http.get(path,function(followers){
+//to dbl check 
+loadFollowers : function (user,callback){
+  this.loadFollowersFromServer(user,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];

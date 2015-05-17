@@ -50,6 +50,9 @@ app.post('/start',function(req,res){
     console.log('calling from a server:')
     console.log(user.info.login);
     node = user;
+    loadTree.loadFollowersFromServer('marcinwal',function(followers){
+      console.log('number of followers:'+followers.length);
+    });
   });
 
   res.send('200');
