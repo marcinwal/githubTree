@@ -1,7 +1,7 @@
 var Node = require('./node');
 var http = require('https');
 var GitHubApi = require('github');
-
+var networkAllUsers = [];
 
 module.exports = {
 
@@ -43,8 +43,8 @@ loadFollowersFromServer : function (username,callback){
 },
 
 //to dbl check 
-loadFollowers : function (user,callback){
-  this.loadFollowersFromServer(user.info.login,function(followers){
+loadFollowers : function (user,field,callback){
+  this.loadFollowersFromServer(user.info[field],function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];
@@ -54,19 +54,18 @@ loadFollowers : function (user,callback){
   });
 },
 
-loadNetwork : function (node,depth,field,networkAllUsers,callback){
-  
+loadNetwork : function (node,depth,field,callback){
+  var core = this;
   this.loadFollowers(node,field,function(){ 
-  if (depth == 0){callback;}
+  if (depth == 0){callback(networkAllUsers);}
   for(var i=0; i < node.followers.length; i++){
     current = node.followers[i];
-    cosole.log(current);
     id = current.info[field];
     if (networkAllUsers.indexOf(id)===-1)
     { 
       networkAllUsers.push(id);
       console.log(id);
-      loadNetwork(current,depth-1,field);
+      core.loadNetwork(current,depth-1,field,callback);
     }  
   }});
 

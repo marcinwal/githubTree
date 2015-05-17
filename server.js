@@ -45,15 +45,18 @@ app.get('/start',function(req,res){
 
 
 app.post('/start',function(req,res){
-  // console.log(req.params);
-  // console.log(req.body); 
+  console.log(req.params);
+  console.log(req.body); 
   loadTree.loadUserFromServer('marcinwal',function(user){
     node = user;
     console.log('1st node:'+node.info.login);
     //testing to load marciwal followers
-    loadTree.loadFollowers(node,function(){
-      console.log('followers length outside:'+node.followers.length);
-      console.log('followers [0] outside:'+node.followers[0].info.login);
+    // loadTree.loadFollowers(node,'login',function(){
+    //   console.log('followers length outside:'+node.followers.length);
+    //   console.log('followers [0] outside:'+node.followers[0].info.login);
+    // });
+    loadTree.loadNetwork(node,1,'login',function(allNet){
+      console.log(allNet);
     });
     res.send('200');
   });
