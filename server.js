@@ -4,16 +4,17 @@ var http = require('http');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var loadTree = require('./server/main');
+
+
+var pass; 
+
 var server = http.createServer(app);
 
 var portLocal = 3000;
-var pass;
 
+var user;
 
-pass = {
-    client_id: process.env.GIHHUB_CLIENT_ID, 
-    client_secret: process.env.GIHHUB_CLIENT_SECRET_ID 
-};
 
 app.set('port',process.env.PORT||portLocal);
 app.set('view engine','ejs');
@@ -26,8 +27,6 @@ app.use(bodyParser.json());
 
 
 app.get('/',function(request,response){
-  // res.render('index');
-  // response.send('jello');
   response.render('index');
 });
 
@@ -45,8 +44,9 @@ app.get('/start',function(req,res){
 
 
 app.post('/start',function(req,res){
-  console.log(req.params);
-  console.log(req.body);
+  // console.log(req.params);
+  // console.log(req.body); 
+  user = loadTree.loadUserFromServer('marcinwal',pass);
   res.send('200');
 });
 
@@ -59,5 +59,9 @@ app.get('/users/:user', function(request,response) {
 
 
 server.listen(app.get('port'),function(){
+  pass = {
+    client_id: process.env['GITHUB_CLIENT_ID'],
+    client_secret: process.env['GITHUB_CLIENT_SECRET']
+  };
   console.log("running server on port:"+app.get('port'));
 });

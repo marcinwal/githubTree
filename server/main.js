@@ -1,32 +1,82 @@
-// var centerUser;
-// var centerUserFollowers;
-var user;
+var Node = require('./node');
+var http = require('https');
+var GitHubApi = require('github');
+
+
 var networkAllUsers;
+var user;
+
+var github = new GitHubApi({
+  version: "3.0.0",
+  debug: true,
+  protocol: "https",
+  host: "api.github.com",
+  timeout: 5000,
+  authenticate: {
+    type: "oauth",
+    key: process.env['GITHUB_CLIENT_ID'],
+    secret: process.env['GITHUB_CLIENT_SECRET']
+  }
+});
+
+// github.authenticate({
+//     type: "oauth",
+//     key: process.env['GITHUB_CLIENT_ID'],
+//     secret: process.env['GITHUB_CLIENT_SECRET']
+// });
 
 
-pass = {
-    client_id: '31b2fd9fbe37af7c3ae6', //process.env.GIHHUB_CLIENT_ID,
-    client_secret: '52b79f74b10c64a3476b6e4730e17d58e6c70110' //process.env.GIHHUB_CLIENT_SECRET_ID
-}
 
-function loadUser(username){
-  user = new Node();
-  path = 'https://api.github.com/users/'+ username +'?client_id=' 
-  path += pass.client_id + '&client_secret='+pass.client_secret
-  $.get(path,function(user_reply){
-      user.info = user_reply;
+module.exports = {
+
+networkAllUsers : networkAllUsers,
+userNew : user,
+loadUserFromServer2 : function (username,pass){
+  userNew = new Node();
+  github.user.get({
+    user: username,
+  },function(err,res){
+    if(err){
+      console.log(err);
+    }
+    console.log(JSON.stringify(res));
   });
-  $('#formdepth').attr('class','formshow');
-  return user;
-}
+},
 
-function loadFollowers(user,field,callback){
+loadFollowersFromServer : function (username,pass){
+  userNew = new Node();
+  github.user.getFollowers({
+    user: username,
+  },function(err,res){
+    if(err){
+      console.log(err);
+    }
+    console.log(JSON.stringify(res));
+  });
+},
+
+loadUserFromServer : function(username,pass){
+path = 'https://api.github.com/followers/'+username;
+// path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret;  
+
+  http.get(path,function(error,result){
+  if(error){
+    console.log("error:");
+    console.log(error);
+  }else{  
+    console.log(error);
+    console.log(JSON.stringify(result));
+  }
+  });
+},
+
+loadFollowers : function (user,field,callback){
   path = 'https://api.github.com/users/'+user.info[field]+'/followers';
-  path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret
+  path += '?client_id=' + pass.client_id + '&client_secret='+pass.client_secret;
 
   console.log("path:"+path+' field: '+field+' node: '+user);
 
-  $.get(path,function(followers){
+  http.get(path,function(followers){
     for(var i = 0;i < followers.length; i++){ 
       current = new Node();
       current.info = followers[i];
@@ -34,9 +84,9 @@ function loadFollowers(user,field,callback){
       callback();
     };
   });
-}
+},
 
-function loadNetwork(node,depth,field){
+loadNetwork : function (node,depth,field){
   
   loadFollowers(node,field,function(){
   if (depth == 0){return;}
@@ -47,9 +97,15 @@ function loadNetwork(node,depth,field){
     { 
       networkAllUsers.push(id);
       console.log(id);
-      $('#result').val(networkAllUsers.length);
       loadNetwork(current,depth-1,field);
     }  
   }});
+
+
 }
+}
+
+
+// module.exports = loadTree;
+// module.exports = loadUserFromServer;
 
